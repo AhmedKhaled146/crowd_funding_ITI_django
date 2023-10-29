@@ -54,7 +54,8 @@ def home(request):
     )[:5]
     search_form = ProjectSearchForm(request.GET)
     message = ""  
-
+    categories = CategoriesModel.objects.all()
+    
     if search_form.is_valid():  
         query = search_form.cleaned_data.get('query')
         print(f"Query: {query}")  
@@ -71,7 +72,7 @@ def home(request):
             message = "No query provided."
         print(f"Message: {message}")
 
-    categories = CategoriesModel.objects.all()
+    
     category_projects = {}  
 
     for category in categories:
@@ -87,6 +88,8 @@ def home(request):
             "featured_projects": featured_projects,
             "categories": categories,
             "category_projects": category_projects,
+            'search_form': search_form,
+            'message': message
         },
     )
 
